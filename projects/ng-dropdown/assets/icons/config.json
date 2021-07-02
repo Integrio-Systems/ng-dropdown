@@ -1,0 +1,22 @@
+{
+  "name": "ng-dropdown-icons",
+  "css_prefix_text": "ng-dropdown-",
+  "css_use_suffix": false,
+  "hinting": true,
+  "units_per_em": 1000,
+  "ascent": 850,
+  "glyphs": [
+    {
+      "uid": "06301c50d89b5d3e651bd07ebd6d7de7",
+      "css": "close",
+      "code": 59393,
+      "src": "mfglabs"
+    },
+    {
+      "uid": "58b5f27abdf85c2b2b8db2770d61162d",
+      "css": "buffer",
+      "code": 59394,
+      "src": "zocial"
+    }
+  ]
+}

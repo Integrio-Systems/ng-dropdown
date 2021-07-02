@@ -1,0 +1,27 @@
+<ng-dropdown placeholder="Select item"
+             [records]="items"
+             [(ngModel)]="selected"
+             [disabled]="disabled"
+             [clearable]="clearable"
+             [loading]="loading">
+</ng-dropdown>
+
+<div class="mt-2">
+  <div>
+    Selected: {{selected}}
+  </div>
+
+  <button class="d-block mt-2" (click)="loading=!loading">
+    Toggle loading
+  </button>
+
+  <button class="d-block mt-2" (click)="disabled=!disabled">
+    Toggle disabled
+  </button>
+
+  <button class="d-block mt-2" (click)="clearable=!clearable">
+    Toggle clearable
+  </button>
+</div>
+
+

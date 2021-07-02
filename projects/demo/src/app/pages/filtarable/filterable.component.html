@@ -1,0 +1,39 @@
+<ng-dropdown
+  [multi]="true"
+  compactModeSwitcher
+  selectedRecordsFilter
+  [selectedRecordsSearchTerm]="selectedRecordsSearchTerm"
+  [filterSelectedBy]="filter"
+  availableRecordsFilter
+  [availableRecordsSearchTerm]="availableRecordsSearchTerm"
+  [filterAvailableBy]="filter"
+  [records]="items"
+  [closeAfterSelect]="false"
+  [(ngModel)]="selected"
+  selectedRecordsPanelScrollMonitor
+  [selectedRecordsPanelScrollTopSignal]="scrollTopSignal"
+  availableRecordsPanelScrollMonitor
+  [availableRecordsPanelScrollTopSignal]="scrollTopSignal"
+  placeholder="Choose">
+
+  <ng-template availableRecordsHeaderTmpl>
+    <input type="number"
+           placeholder="x % record === 0"
+           [(ngModel)]="availableRecordsSearchTerm"
+           (ngModelChange)="scrollTopSignal.next(0)">
+  </ng-template>
+
+  <ng-template selectedRecordsHeaderTmpl>
+    <div class="d-flex flex-column">
+      <div class="text-center">
+        Selected items
+      </div>
+      <input
+        type="number"
+        placeholder="x % record === 0"
+        [(ngModel)]="selectedRecordsSearchTerm"
+        (ngModelChange)="scrollTopSignal.next(0)">
+    </div>
+  </ng-template>
+
+</ng-dropdown>

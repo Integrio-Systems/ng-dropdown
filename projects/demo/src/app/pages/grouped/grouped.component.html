@@ -1,0 +1,16 @@
+<ng-dropdown [multi]="true"
+             [records]="ungroupedItems"
+             groupBy="type"
+             compactModeSwitcher
+             placeholder="Choose"
+             bindLabel="value">
+  <ng-template recordGroupTmpl let-group="group">
+    <span class="pl-1">Group: {{group}}</span>
+  </ng-template>
+
+  <ng-template noSelectedRecordsTmpl>
+    <div class="d-flex h-100 align-items-center justify-content-center">
+      No records
+    </div>
+  </ng-template>
+</ng-dropdown>

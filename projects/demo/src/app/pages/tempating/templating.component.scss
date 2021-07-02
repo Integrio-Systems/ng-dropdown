@@ -1,0 +1,9 @@
+.pointer {
+  cursor: pointer;
+}
+
+::ng-deep {
+  .active .selected-button {
+    color: green;
+  }
+}

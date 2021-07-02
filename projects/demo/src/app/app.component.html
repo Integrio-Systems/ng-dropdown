@@ -1,0 +1,11 @@
+<div class="d-flex h-100">
+  <div class="sidebar">
+    <a [ngClass]="{active: (activeUrl$ | async) === l.url }"
+       *ngFor="let l of links" [routerLink]="l.url">
+      {{l.text}}
+    </a>
+  </div>
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

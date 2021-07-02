@@ -1,0 +1,104 @@
+<div class="d-flex justify-content-between flex-column h-100">
+  <div class="row no-gutters justify-content-between">
+    <div class="col-sm-12 col-md-auto">
+      <ng-dropdown
+        placeholder="Select items"
+        [closeAfterSelect]="closeAfterSelect"
+        [multi]="true"
+        [(ngModel)]="selected"
+        compactModeSwitcher
+        [records]="items">
+
+        <!--        <ng-template availableRecordsHeaderTmpl>
+                  <div class="text-center">
+                    Available Records Header
+                  </div>
+                </ng-template>-->
+
+        <!--        <ng-template availableRecordsFooterTmpl>
+                  <div class="text-center">
+                    Available Records Footer
+                  </div>
+                </ng-template>-->
+
+        <ng-template noSelectedRecordsTmpl>
+          <div class="d-flex h-100 align-items-center justify-content-center">
+            No records
+          </div>
+        </ng-template>
+
+        <ng-template selectedRecordsHeaderTmpl>
+          <div class="text-center">
+            Selected Records Header
+          </div>
+        </ng-template>
+
+        <ng-template selectedRecordsFooterTmpl>
+          <div class="text-center">
+            Selected Records Footer
+          </div>
+        </ng-template>
+
+
+        <!--        <ng-template availableRecordsHeaderTmpl>
+                  <div class="text-center">
+                    Available Records Header
+                  </div>
+                </ng-template>-->
+
+      </ng-dropdown>
+    </div>
+    <div class="col-sm-12 col-md-auto mt-2 mt-md-0">
+      <ng-dropdown
+        placeholder="Select items"
+        [closeAfterSelect]="closeAfterSelect"
+        [multi]="true"
+        [records]="selected"
+        compactModeSwitcher>
+        <ng-template noSelectedRecordsTmpl>
+          <div class="d-flex h-100 align-items-center justify-content-center">
+            No records
+          </div>
+        </ng-template>
+      </ng-dropdown>
+    </div>
+  </div>
+  <div class="row no-gutters">
+    <div class="col-11">
+      <ng-dropdown
+        style="width: 100%"
+        placeholder="Select items"
+        [closeAfterSelect]="closeAfterSelect"
+        [multi]="true"
+        [(ngModel)]="selected"
+        compactModeSwitcher
+        [records]="items">
+      </ng-dropdown>
+    </div>
+  </div>
+  <div class="row no-gutters justify-content-between">
+    <div class="col-sm-12 col-md-auto">
+      <ng-dropdown
+        placeholder="Select items"
+        [closeAfterSelect]="closeAfterSelect"
+        [multi]="true"
+        [(ngModel)]="selected"
+        compactModeSwitcher
+        [records]="items">
+      </ng-dropdown>
+    </div>
+    <div class="col-sm-12 col-md-auto mt-2 mt-md-0">
+      <ng-dropdown
+        placeholder="Select items"
+        [closeAfterSelect]="closeAfterSelect"
+        [multi]="true"
+        [(ngModel)]="selected"
+        compactModeSwitcher
+        [records]="items">
+      </ng-dropdown>
+    </div>
+  </div>
+</div>
+
+
+

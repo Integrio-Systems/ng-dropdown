@@ -1,0 +1,4 @@
+<div class="mixed-panel" [ngClass]="{visible: (show | async)}">
+  <ng-content select="[available]"></ng-content>
+  <ng-content select="[selected]"></ng-content>
+</div>

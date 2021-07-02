@@ -1,0 +1,37 @@
+<ng-container *ngTemplateOutlet="headerTmpl || null"></ng-container>
+
+<ng-container *ngIf="noRecords;then empty else filled">
+</ng-container>
+
+<ng-template #filled>
+  <cdk-virtual-scroll-viewport listResizeNotifier scrollListener scrollTop itemSize="15" class="records">
+    <ng-container *cdkVirtualFor="let record of records | groupBy:groupBy">
+      <ng-container *ngTemplateOutlet="groupBy ? grouped : unGrouped;context:{$implicit:record}"></ng-container>
+    </ng-container>
+  </cdk-virtual-scroll-viewport>
+</ng-template>
+
+<ng-template #empty>
+  <ng-container *ngTemplateOutlet="emptyTmpl || null"></ng-container>
+</ng-template>
+
+<ng-template #grouped let-record>
+  <ng-container *ngTemplateOutlet="groupTmpl;context:{record:record,group:record.key}"></ng-container>
+  <ng-container *ngFor="let item of record.items">
+    <ng-container *ngTemplateOutlet="unGrouped;context:{$implicit:item}"></ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #unGrouped let-record>
+  <div class="record" [ngClass]="{grouped:!!groupBy,selected:selected && selected(record)}">
+    <ng-container
+      *ngTemplateOutlet="itemTmpl;context:{
+        record:record,
+        total:records.length,
+        selected:selected && selected(record),
+        selectAction:selectAction
+       }"></ng-container>
+  </div>
+</ng-template>
+
+<ng-container *ngTemplateOutlet="footerTmpl || null"></ng-container>

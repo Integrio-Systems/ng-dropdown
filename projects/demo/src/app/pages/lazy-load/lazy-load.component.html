@@ -1,0 +1,10 @@
+<ng-dropdown
+  [multi]="true"
+  placeholder="Scroll to the bottom to load more"
+  [closeAfterSelect]="false"
+  [records]="(data | async) || []"
+  [loading]="(loading | async) || false"
+  availableRecordsPanelScrollMonitor
+  compactModeSwitcher
+  (availableRecordsPanelScrolled)="scrolled($event)">
+</ng-dropdown>

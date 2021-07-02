@@ -1,0 +1,98 @@
+<h4 class="m-0 p-0">
+  Demo 1
+</h4>
+<ng-dropdown
+  [records]="items"
+  [closeAfterSelect]="false"
+  placeholder="Select something"
+  [loading]="loading"
+  compactModeSwitcher
+  [multi]="true">
+
+  <ng-template availableRecordsHeaderTmpl>
+    <div class="text-center">
+      Available Records Header
+    </div>
+  </ng-template>
+
+  <ng-template availableRecordsFooterTmpl>
+    <div class="text-center">
+      Available Records Footer
+    </div>
+  </ng-template>
+
+  <ng-template noSelectedRecordsTmpl>
+    <div class="text-center">
+      No records
+    </div>
+  </ng-template>
+
+  <ng-template selectedRecordsHeaderTmpl>
+    <div class="text-center">
+      Selected Records Header
+    </div>
+  </ng-template>
+
+  <ng-template selectedRecordsFooterTmpl>
+    <div class="text-center">
+      Selected Records Footer
+    </div>
+  </ng-template>
+
+  <ng-template labelTmpl let-records>
+    Selected {{records.length}} items
+  </ng-template>
+
+  <ng-template availableRecordTmpl let-record="record" let-select="selectAction">
+    <div (click)="select(record)">
+      😐 {{record}}
+    </div>
+  </ng-template>
+
+  <ng-template selectedRecordTmpl let-record="record" let-select="selectAction">
+    <div (click)="select(record)">
+      {{record}} 😛
+    </div>
+  </ng-template>
+
+  <ng-template clearButtonTmpl let-clear>
+    <span class="pointer" (click)="clear()">💥</span>
+  </ng-template>
+
+  <ng-template selectedRecordsButtonTmpl let-show>
+    <span class="pointer selected-button" (click)="show()">❤</span>
+  </ng-template>
+
+  <ng-template spinnerTmpl>
+    <span>⌛</span>
+  </ng-template>
+
+
+</ng-dropdown>
+
+<div class="mt-2">
+
+  <button class="d-block mt-2" (click)="loading=!loading">
+    Toggle loading
+  </button>
+
+</div>
+
+<h4 class="p-0 mt-3 mb-0">Demo 2</h4>
+<ng-dropdown [records]="items2"
+             [(ngModel)]="selected"
+             compactModeSwitcher
+             [closeAfterSelect]="false"
+             [multi]="true">
+  <ng-template availableRecordTmpl let-record="record" let-select="selectAction" let-selected="selected">
+    <div class="d-flex justify-content-between">
+      <div style="flex: 1">
+        <input class="pointer" type="checkbox" [checked]="selected" (click)="select(record)">
+        {{record}}
+      </div>
+      <div>
+        <button class="pointer" (click)="remove(record)">❌</button>
+      </div>
+    </div>
+  </ng-template>
+</ng-dropdown>

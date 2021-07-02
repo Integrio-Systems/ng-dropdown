@@ -1,0 +1,19 @@
+{
+  "name": "@koliaz/ng-dropdown",
+  "version": "1.0.0",
+  "peerDependencies": {
+    "@angular/common": "^8.2.4",
+    "@angular/core": "^8.2.4",
+    "@angular/cdk": "^8.2.3"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/koliaZ/ng-dropdown.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/koliaZ"
+  }
+}

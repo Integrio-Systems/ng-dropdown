@@ -1,0 +1,16 @@
+/* You can add global styles to this file, and also import other style files */
+/*@import "../../ng-dropdown/node_modules/@angular/cdk/overlay-prebuilt.css";*/
+@import "styles/bootstrap/bootstrap";
+@import "~@angular/cdk/overlay-prebuilt.css";
+@import "../../ng-dropdown/assets/icons/ng-dropdown-icons.css";
+@import "../../ng-dropdown/assets/default.theme";
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+ng-dropdown {
+  width: 300px;
+  display: block;
+}

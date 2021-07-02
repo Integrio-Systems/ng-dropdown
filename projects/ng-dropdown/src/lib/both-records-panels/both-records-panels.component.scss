@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  width: 100%;
+
+  .mixed-panel {
+    display: flex;
+    visibility: hidden;
+
+    &.visible {
+      visibility: visible;
+      height: 100%;
+    }
+
+    ::ng-deep {
+      > div {
+        flex: 1;
+
+        records-panel.empty {
+          height: 100%;
+        }
+
+      }
+    }
+
+  }
+}
+
+

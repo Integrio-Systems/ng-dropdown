@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+  background: white;
+  width: 100%;
+  flex-direction: column;
+  position: relative;
+  justify-content: space-between;
+
+  .records {
+    width: 100%;
+  }
+
+  cdk-virtual-scroll-viewport {
+    display: block;
+  }
+}
+
+

@@ -1,0 +1,127 @@
+<div class="ng-dropdown" #dropdown [ngClass]="{disabled:disabled}">
+  <div class="selection-trigger" #selectionTrigger (click)="showItemsPanel()">
+    <div class="placeholder" *ngIf="selectedRecords.isEmpty">
+      {{placeholder}}
+    </div>
+    <div class="value" *ngIf="!selectedRecords.isEmpty">
+      <ng-container
+        *ngTemplateOutlet="labelTmpl?.template || defaultLabelTmpl;context:{$implicit:selectedRecords.records}"></ng-container>
+    </div>
+  </div>
+  <div class="actions" *ngIf="!loading">
+    <div *ngIf="!selectedRecords.isEmpty && clearable">
+      <ng-container
+        *ngTemplateOutlet="clearButtonTmpl?.template || defaultClearButton;context:{$implicit:clear}"></ng-container>
+    </div>
+    <div #selectedRecordsButton
+         [ngClass]="{active:selectedRecordsPanel.visibilityChange | async}"
+         *ngIf="!selectedRecords.isEmpty && multi && showSelected">
+      <ng-container
+        *ngTemplateOutlet="selectedRecordsButtonTmpl?.template || defaultSelectItemsButton;context:{$implicit:showSelectedItemsPanel}">
+      </ng-container>
+    </div>
+  </div>
+  <ng-container *ngIf="loading">
+    <ng-container *ngTemplateOutlet="spinnerTmpl?.template || defaultSpinnerTmpl"></ng-container>
+  </ng-container>
+</div>
+
+<ng-template #bothRecordPanelsTmpl>
+  <both-records-panels>
+    <div available>
+      <records-panel
+        availableRecordsPanel
+        [headerTmpl]="availableRecordsHeaderTmpl?.template || null"
+        [footerTmpl]="availableRecordsFooterTmpl?.template || null"
+        [groupTmpl]="groupTmpl?.template || defaultGroupTmpl"
+        [emptyTmpl]="noAvailableRecordsTmpl?.template || null"
+        [itemTmpl]="availableRecordTmpl?.template || defaultRecordTmpl"
+        [groupBy]="groupBy"
+        [items]="availableRecords.filtered$ | async"
+        [selected]="selectedRecords.isSelected"
+        [selectAction]="recordSelect">
+      </records-panel>
+    </div>
+    <div selected>
+      <records-panel
+        selectedRecordsPanel
+        [headerTmpl]="selectedRecordsHeaderTmpl?.template || null"
+        [footerTmpl]="selectedRecordsFooterTmpl?.template || null"
+        [groupTmpl]="groupTmpl?.template || defaultGroupTmpl"
+        [emptyTmpl]="noSelectedRecordsTmpl?.template || null"
+        [itemTmpl]="selectedRecordTmpl?.template || defaultRecordTmpl"
+        [groupBy]="groupBy"
+        [items]="selectedRecords.filtered$ | async"
+        [selectAction]="recordDeselect">
+      </records-panel>
+    </div>
+  </both-records-panels>
+</ng-template>
+
+<ng-template #availableRecordsPanelTmpl>
+  <records-panel
+    availableRecordsPanel
+    panelResizer
+    [headerTmpl]="availableRecordsHeaderTmpl?.template || null"
+    [footerTmpl]="availableRecordsFooterTmpl?.template || null"
+    [groupTmpl]="groupTmpl?.template || defaultGroupTmpl"
+    [emptyTmpl]="noAvailableRecordsTmpl?.template || null"
+    [itemTmpl]="availableRecordTmpl?.template || defaultRecordTmpl"
+    [groupBy]="groupBy"
+    [items]="availableRecords.filtered$ | async"
+    [selected]="selectedRecords.isSelected"
+    [selectAction]="recordSelect">
+  </records-panel>
+</ng-template>
+
+<ng-template #selectedRecordsPanelTmpl>
+  <records-panel
+    selectedRecordsPanel
+    panelResizer
+    [headerTmpl]="selectedRecordsHeaderTmpl?.template || null"
+    [footerTmpl]="selectedRecordsFooterTmpl?.template || null"
+    [groupTmpl]="groupTmpl?.template || defaultGroupTmpl"
+    [emptyTmpl]="noSelectedRecordsTmpl?.template || null"
+    [itemTmpl]="selectedRecordTmpl?.template || defaultRecordTmpl"
+    [groupBy]="groupBy"
+    [items]="selectedRecords.filtered$ | async"
+    [selectAction]="recordDeselect">
+  </records-panel>
+</ng-template>
+
+<ng-template #defaultClearButton let-clear>
+  <button class="clear-btn default" (click)="clear()" [title]="defaultClearButtonTitle">
+    <i class="ng-dropdown-close"></i>
+  </button>
+</ng-template>
+
+<ng-template #defaultSelectItemsButton let-show>
+  <button class="selected-records-btn default" (click)="show()" [title]="defaultSelectedRecordsButtonTitle">
+    <i class="ng-dropdown-buffer"></i>
+  </button>
+</ng-template>
+
+<ng-template #defaultLabelTmpl let-records>
+  <div *ngFor="let record of records;let i = index">
+    {{bindLabel ? record[bindLabel] : record}}{{i !== records.length - 1 ? "," + "&nbsp;" : ''}}
+  </div>
+</ng-template>
+
+<ng-template #defaultRecordTmpl let-record="record" let-select="selectAction">
+  <div (click)="select(record)">
+    {{bindLabel ? record[bindLabel] : record}}
+  </div>
+</ng-template>
+
+<ng-template #defaultGroupTmpl let-group="group">
+  <span class="default-group">{{group}}</span>
+</ng-template>
+
+<ng-template #defaultSpinnerTmpl>
+  <div class="ng-dropdown-spinner">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</ng-template>

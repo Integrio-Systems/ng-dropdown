@@ -1,0 +1,135 @@
+$borderColor: #D3D3D3;
+$selectedRecordColor: #ebf5ff;
+$selectedRecordsButtonColor: #000080;
+
+.ng-dropdown {
+  border: 1px solid $borderColor;
+  border-radius: 4px;
+  height: 35px;
+
+  &.disabled {
+    background-color: #D3D3D3;
+    pointer-events: none;
+  }
+
+  .value {
+    white-space: nowrap;
+  }
+
+  .placeholder {
+    color: #778899;
+  }
+
+  .actions {
+    margin: 0 5px 0 10px;
+
+    > div {
+      > button.default {
+        border: none;
+        outline: none;
+        background: none;
+        padding: 0;
+        margin: 0 -5px;
+        color: #696969;
+
+        i {
+          font-size: 1rem;
+        }
+      }
+    }
+
+    &:not(.disabled) {
+      > div {
+
+        > button.default:hover {
+          cursor: pointer;
+
+          &.clear-btn {
+            color: red;
+          }
+
+          &.selected-records-btn {
+            color: $selectedRecordsButtonColor;
+          }
+        }
+
+        &.active {
+          .selected-records-btn {
+            color: $selectedRecordsButtonColor;
+          }
+        }
+      }
+    }
+  }
+
+}
+
+records-panel {
+  border: 1px solid $borderColor;
+
+  .records {
+
+    .default-group {
+      padding-left: 5px;
+    }
+
+    .record {
+      padding-left: 5px;
+
+      &:hover {
+        background-color: $selectedRecordColor;
+        cursor: pointer;
+      }
+
+      &.grouped {
+        padding-left: 10px;
+      }
+
+      &.selected {
+        background-color: $selectedRecordColor;
+      }
+    }
+  }
+}
+
+.ng-dropdown-spinner {
+  display: inline-block;
+  position: relative;
+  width: 23px;
+  height: 23px;
+  margin-right: 5px;
+}
+
+.ng-dropdown-spinner div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-width: 4px;
+  border-style: solid;
+  border-radius: 50%;
+  animation: ng-dropdown-spinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: #1E90FF transparent transparent transparent;
+}
+
+.ng-dropdown-spinner div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.ng-dropdown-spinner div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.ng-dropdown-spinner div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+@keyframes ng-dropdown-spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
