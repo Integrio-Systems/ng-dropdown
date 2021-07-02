@@ -1,9 +1,9 @@
 # *Flexible multiselect for angular 8+*
 
-### **[DEMO](https://koliaz.github.io/ng-dropdown/)**
+### **[DEMO](https://integriosystems.github.io/ng-dropdown/)**
 
 # How to get started
-1. Create file (if not exist) **.npmrc** in the root of your project with following line `registry=https://npm.pkg.github.com/koliaZ`
+1. Create file (if not exist) **.npmrc** in the root of your project with following line `registry=https://npm.pkg.github.com/integriosystems`
 2. run `npm install -S @integriosystems/ng-dropdown`
 3. run `npm install -S @angular/cdk`   
 3. add following styles

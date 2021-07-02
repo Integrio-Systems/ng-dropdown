@@ -11,9 +11,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/koliaZ/ng-dropdown.git"
+    "url": "https://github.com/integriosystems/ng-dropdown.git"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/koliaZ"
+    "registry": "https://npm.pkg.github.com/integriosystems"
   }
 }
