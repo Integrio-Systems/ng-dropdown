@@ -1,7 +1,5 @@
 # *Flexible multiselect for angular 8+*
 
-### **[DEMO](https://integriosystems.github.io/ng-dropdown/)**
-
 # How to get started
 1. Create file (if not exist) **.npmrc** in the root of your project with following line `registry=https://npm.pkg.github.com/integriosystems`
 2. run `npm install -S @integriosystems/ng-dropdown`
@@ -32,9 +30,9 @@
 # Templates
 | Selector                   | Description                                                                        | Context                                                                                                                                          |
 |----------------------------|------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| availableRecordTmpl        | How record showed in available records panel                                       | record - array element <br> total - total number of records (number) <br> selected - is record selected (boolean) <br> selectAction - call this action when record clicked (function) |
-| selectedRecordTmpl         | How record showed in selected records panel                                        | same as for availableRecordTmpl                                                                                                                  |
-| labelTmpl                  | What showed in input itself                                                        | $implicit - selected records (any[])                                                                                                             |
+| availableRecordTmpl        | How record is showed in available records panel                                    | record - array element <br> total - total number of records (number) <br> selected - is record selected (boolean) <br> selectAction - call this action when record clicked (function) |
+| selectedRecordTmpl         | How record is showed in selected records panel                                     | same as for availableRecordTmpl                                                                                                                  |
+| labelTmpl                  | What is showed in input itself                                                     | $implicit - selected records (any[])                                                                                                             |
 | availableRecordsHeaderTmpl | Header for available records panel                                                 | -                                                                                                                                                |
 | availableRecordsFooterTmpl | Footer for available records panel                                                 | -                                                                                                                                                |
 | selectedRecordsHeaderTmpl  | Header for selected records panel                                                  | -                                                                                                                                                |
@@ -69,26 +67,46 @@
 
 ***
 
-> **availableRecordsPanelMonitor** (controlling / monitoring available records panel)
+> **availableRecordsPanelScrollMonitor** (controlling / monitoring available records panel scroll)
 
 ### Parameters
 
-| Parameter name                        | Parameter direction | Type                                      | Description                          |
-|---------------------------------------|---------------------|-------------------------------------------|--------------------------------------|
-| availableRecordsPanelVisibilityChange | @Output()           | boolean                     | Fired on panel show/hide             |
-| availableRecordsPanelScrolled         | @Output()           | {top:number;bottom:number;} | Fired when records panel scrolled    |
-| availableRecordsPanelScrollTopSignal  | @Input()            | Observable<number\>                        | Controlling records panel scroll top |
-| availableRecordsPanelHideSignal       | @Input()            | Observable<any\>                           | Hide records panel                   |
+| Parameter name                        | Parameter direction | Type                        | Description                          |
+|---------------------------------------|---------------------|-----------------------------|--------------------------------------|
+| availableRecordsPanelScrolled | @Output()           | {top:number;bottom:number;} | Fired when records panel scrolled           |
+| availableRecordsPanelScrollTopSignal  | @Input()            | Observable<number\>         | Controlling records panel scroll top |
 
 ***
 
-> **selectedRecordsPanelMonitor** (controlling / monitoring selected records panel)
+> **availableRecordsPanelVisibilityMonitor** (controlling / monitoring available records panel visibility)
 
 ### Parameters
 
-| Parameter name                       | Parameter direction | Type                                      | Description                          |
-|--------------------------------------|---------------------|-------------------------------------------|--------------------------------------|
+| Parameter name                        | Parameter direction | Type                        | Description                          |
+|---------------------------------------|---------------------|-----------------------------|--------------------------------------|
+| availableRecordsPanelVisibilityChange | @Output()           | boolean                     | Fired on panel show/hide             |
+| availableRecordsPanelHideSignal       | @Input()            | Observable<any\>                           | Hide records panel|
+
+***
+
+> **selectedRecordsPanelScrollMonitor** (controlling / monitoring selected records panel scroll)
+
+### Parameters
+
+| Parameter name                        | Parameter direction | Type                        | Description                          |
+|---------------------------------------|---------------------|-----------------------------|--------------------------------------|
+| selectedRecordsPanelScrolled | @Output()           | {top:number;bottom:number;} | Fired when records panel scrolled           |
+| selectedRecordsPanelScrollTopSignal  | @Input()            | Observable<number\>         | Controlling records panel scroll top |
+
+***
+
+> **selectedRecordsPanelVisibilityMonitor** (controlling / monitoring selected records panel visibility)
+
+### Parameters
+
+| Parameter name                        | Parameter direction | Type                        | Description                          |
+|---------------------------------------|---------------------|-----------------------------|--------------------------------------|
 | selectedRecordsPanelVisibilityChange | @Output()           | boolean                     | Fired on panel show/hide             |
-| selectedRecordsPanelScrolled         | @Output()           | {top:number;bottom:number;} | Fired when records panel scrolled    |
-| selectedRecordsPanelScrollTopSignal  | @Input()            | Observable<number\>                        | Controlling records panel scroll top |
-| selectedRecordsPanelHideSignal       | @Input()            | Observable<any\>                           | Hide records panel                   |
+| selectedRecordsPanelHideSignal       | @Input()            | Observable<any\>                           | Hide records panel|
+
+***
