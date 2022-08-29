@@ -1,5 +1,5 @@
 {
-  "name": "@integriosystems/ng-dropdown",
+  "name": "@Integrio-Systems/ng-dropdown",
   "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": "^8.2.4",
@@ -11,9 +11,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/integriosystems/ng-dropdown.git"
+    "url": "https://github.com/Integrio-Systems/ng-dropdown.git"
   },
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/integriosystems"
+    "registry": "https://npm.pkg.github.com/Integrio-Systems"
   }
 }
