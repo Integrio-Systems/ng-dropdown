@@ -9,5 +9,4 @@ export class MultiComponent {
   public items = items1000;
   public closeAfterSelect = false;
   public selected = [3, 7, 9];
-  public showSelected = true;
 }

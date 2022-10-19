@@ -6,7 +6,7 @@ import {Component} from '@angular/core';
 })
 export class GroupedComponent {
 
-  public ungroupedItems = [
+  public singleGroupItems = [
     {
       type: 'Veg',
       value: '🍄'
@@ -31,6 +31,29 @@ export class GroupedComponent {
       type: 'Fruit',
       value: '🍇'
     },
+  ];
+
+  public multiGroupItems = [
+    {
+      value: 'Node.js',
+      tags: ['Web', 'Server']
+    },
+    {
+      value: 'Angular',
+      tags: ['Web', 'Client']
+    },
+    {
+      value: 'React',
+      tags: ['Web', 'Client']
+    },
+    {
+      value: 'Asp.net',
+      tags: ['Web', 'Server']
+    },
+    {
+      value: 'ObjectiveC',
+      tags: ['Desktop']
+    }
   ];
 
 }

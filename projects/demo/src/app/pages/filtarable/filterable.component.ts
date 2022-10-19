@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {Subject} from 'rxjs';
 import {items1000} from '../../data';
 
 @Component({
@@ -10,7 +9,6 @@ export class FilterableComponent {
 
   public items = items1000;
   public selected = Array(50).fill(0).map((_, i) => i + 10);
-  public scrollTopSignal = new Subject<number>();
 
   public availableRecordsSearchTerm = '';
   public selectedRecordsSearchTerm = '';

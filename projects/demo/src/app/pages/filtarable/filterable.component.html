@@ -11,16 +11,16 @@
   [closeAfterSelect]="false"
   [(ngModel)]="selected"
   selectedRecordsPanelScrollMonitor
-  [selectedRecordsPanelScrollTopSignal]="scrollTopSignal"
+  #selectedScroll="selectedRecordsPanelScroll"
   availableRecordsPanelScrollMonitor
-  [availableRecordsPanelScrollTopSignal]="scrollTopSignal"
+  #availableScroll="availableRecordsPanelScroll"
   placeholder="Choose">
 
   <ng-template availableRecordsHeaderTmpl>
     <input type="number"
            placeholder="x % record === 0"
            [(ngModel)]="availableRecordsSearchTerm"
-           (ngModelChange)="scrollTopSignal.next(0)">
+           (ngModelChange)="availableScroll.scrollTop(0)">
   </ng-template>
 
   <ng-template selectedRecordsHeaderTmpl>
@@ -32,7 +32,7 @@
         type="number"
         placeholder="x % record === 0"
         [(ngModel)]="selectedRecordsSearchTerm"
-        (ngModelChange)="scrollTopSignal.next(0)">
+        (ngModelChange)="selectedScroll.scrollTop(0)">
     </div>
   </ng-template>
 

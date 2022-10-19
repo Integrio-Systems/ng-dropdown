@@ -1,4 +1,5 @@
-<div class="mixed-panel" [ngClass]="{visible: (show | async)}">
+<div class="mixed-panel"
+     [combinedPanelResizer]="[availableRecordsPanel,selectedRecordsPanel]">
   <ng-content select="[available]"></ng-content>
   <ng-content select="[selected]"></ng-content>
 </div>

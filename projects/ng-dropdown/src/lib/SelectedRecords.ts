@@ -15,8 +15,6 @@ export type ValueBinder = string | ValueMapper;
 
 const defaultValueMapper = (r: any) => r;
 
-const defaultComparer = (a: any, b: any) => a === b;
-
 interface IRecord {
   data?: any;
   ngModel?: any;
@@ -65,20 +63,20 @@ export class SelectedRecords extends FilterableRecords {
     this.updateSelectedRecords();
   }
 
-  public select(v: any): void {
+  public select(record: any): void {
     if (this.type === ValueMode.single) {
       this.selected = [{
-        data: v,
-        ngModel: this.valueMapper(v)
+        data: record,
+        ngModel: this.valueMapper(record)
       }];
     } else {
-      const index = this.selected.findIndex(r => r.data === v);
+      const index = this.selected.findIndex(r => r.data === record);
       if (index !== -1) {
         this.selected.splice(index, 1);
       } else {
         this.selected.push({
-          data: v,
-          ngModel: this.valueMapper(v)
+          data: record,
+          ngModel: this.valueMapper(record)
         });
       }
     }
@@ -91,7 +89,7 @@ export class SelectedRecords extends FilterableRecords {
         ngModel: v
       }];
     } else {
-      this.selected = Array.isArray(v) ? v.map(r => ({ngModel: r})) : this.selected;
+      this.selected = Array.isArray(v) ? v.map(r => ({ngModel: r})) : [];
     }
     this.updateSelectedRecords();
   }

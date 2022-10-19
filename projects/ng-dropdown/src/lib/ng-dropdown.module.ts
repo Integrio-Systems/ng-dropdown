@@ -8,19 +8,15 @@ import {AvailableRecordsHeaderTmplDirective} from './directives/available-record
 import {AvailableRecordsFooterTmplDirective} from './directives/available-records-footer-tmpl.directive';
 import {SelectedRecordsHeaderTmplDirective} from './directives/selected-records-header-tmpl.directive';
 import {NoSelectedRecordsTmplDirective} from './directives/no-selected-records-tmpl.directive';
-import {GroupByPipe} from './group-by.pipe';
 import {GroupTmplDirective} from './directives/group-tmpl.directive';
 import {ScrollingModule} from '@angular/cdk/scrolling';
-import {ListResizeNotifierDirective} from './directives/list-resize-notifier.directive';
 import {ClearButtonTmplDirective} from './directives/clear-button-tmpl.directive';
 import {SelectedRecordsButtonTmplDirective} from './directives/selected-records-button-tmpl.directive';
 import {SpinnerTmplDirective} from './directives/spinner-tmpl.directive';
 import {SelectedRecordsFilterDirective} from './directives/selected-records-filter.directive';
 import {RecordsPanelComponent} from './records-panel/records-panel.component';
-import {ScrollListenerDirective} from './directives/scroll-listener.directive';
 import {AvailableRecordsPanelDirective} from './directives/available-records-panel.directive';
 import {SelectedRecordsPanelDirective} from './directives/selected-records-panel.directive';
-import {ScrollTopDirective} from './directives/scroll-top.directive';
 import {SelectedRecordsFooterTmplDirective} from './directives/selected-records-footer-tmpl.directive';
 import {SelectedRecordTmplDirective} from './directives/selected-record-tmpl.directive';
 import {AvailableRecordsFilterDirective} from './directives/available-records-filter.directive';
@@ -29,12 +25,12 @@ import {WindowToken} from './injectionTokens';
 import {PanelResizerDirective} from './directives/panel-resizer.directive';
 import {WindowResizeDispatcher} from './WindowResizeDispatcher';
 import {OverlayOutsideClickDispatcher} from './OverlayOutsideClickDispatcher';
-import {CombinedPanelVisibilityMonitorDirective} from './directives/combined-panel-visibility-monitor.directive';
-import {AvailableRecordsPanelVisibilityMonitorDirective} from './directives/available-records-panel-visibility-monitor.directive';
-import {SelectedRecordsPanelVisibilityMonitorDirective} from './directives/selected-records-panel-visibility-monitor.directive';
 import {AvailableRecordsPanelScrollMonitorDirective} from './directives/available-records-panel-scroll-monitor.directive';
 import {SelectedRecordsPanelScrollMonitorDirective} from './directives/selected-records-panel-scroll-monitor.directive';
 import {NoAvailableRecordsTmplDirective} from './directives/no-available-records-tmpl.directive';
+import {ObserversModule} from '@angular/cdk/observers';
+import {VirtualScrollHookDirective} from './directives/virtual-scroll-hook.directive';
+import {CombinedPanelResizerDirective} from './directives/combined-panel-resizer.directive';
 
 export function windowFactory() {
   return window;
@@ -44,7 +40,8 @@ export function windowFactory() {
   imports: [
     CommonModule,
     OverlayModule,
-    ScrollingModule
+    ScrollingModule,
+    ObserversModule
   ],
   declarations: [
     NgDropdownComponent,
@@ -54,29 +51,24 @@ export function windowFactory() {
     AvailableRecordsFooterTmplDirective,
     SelectedRecordsHeaderTmplDirective,
     NoSelectedRecordsTmplDirective,
-    GroupByPipe,
     GroupTmplDirective,
-    ListResizeNotifierDirective,
     ClearButtonTmplDirective,
     SelectedRecordsButtonTmplDirective,
     SpinnerTmplDirective,
     SelectedRecordsFilterDirective,
     RecordsPanelComponent,
-    ScrollListenerDirective,
     AvailableRecordsPanelDirective,
     SelectedRecordsPanelDirective,
-    ScrollTopDirective,
     SelectedRecordsFooterTmplDirective,
     SelectedRecordTmplDirective,
     AvailableRecordsFilterDirective,
     BothRecordsPanelsComponent,
     PanelResizerDirective,
-    CombinedPanelVisibilityMonitorDirective,
-    AvailableRecordsPanelVisibilityMonitorDirective,
-    SelectedRecordsPanelVisibilityMonitorDirective,
     AvailableRecordsPanelScrollMonitorDirective,
     SelectedRecordsPanelScrollMonitorDirective,
-    NoAvailableRecordsTmplDirective
+    NoAvailableRecordsTmplDirective,
+    VirtualScrollHookDirective,
+    CombinedPanelResizerDirective
   ],
   exports: [
     NgDropdownComponent,
@@ -91,13 +83,9 @@ export function windowFactory() {
     SelectedRecordsButtonTmplDirective,
     SpinnerTmplDirective,
     SelectedRecordsFilterDirective,
-    ScrollListenerDirective,
     SelectedRecordsFooterTmplDirective,
     SelectedRecordTmplDirective,
     AvailableRecordsFilterDirective,
-    CombinedPanelVisibilityMonitorDirective,
-    AvailableRecordsPanelVisibilityMonitorDirective,
-    SelectedRecordsPanelVisibilityMonitorDirective,
     AvailableRecordsPanelScrollMonitorDirective,
     SelectedRecordsPanelScrollMonitorDirective,
     NoAvailableRecordsTmplDirective

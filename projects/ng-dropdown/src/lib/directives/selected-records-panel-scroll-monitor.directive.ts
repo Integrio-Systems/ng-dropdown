@@ -1,36 +1,26 @@
-import {Directive, Inject, Input, OnChanges, Output} from '@angular/core';
+import {Directive, EventEmitter, Inject, Input, NgZone, Output} from '@angular/core';
 import {ListScrollMonitorDirectiveBase} from './ListScrollMonitorDirectiveBase';
-import {SimpleChanges} from '../SimpleChanges';
-import {SelectedRecordsPanelScrollControlToken} from '../injectionTokens';
-import {ScrollControl} from '../ScrollControl';
-import {Observable} from 'rxjs';
-import {scrollControlFactory} from './factories';
+import {SelectedRecordsVirtualScrollHolderToken} from '../injectionTokens';
+import {IScrollInfo} from '../IScrollInfo';
+import {VirtualScrollHolder} from '../VirtualScrollHolder';
 
 @Directive({
   selector: '[selectedRecordsPanelScrollMonitor]',
-  providers: [
-    {
-      provide: SelectedRecordsPanelScrollControlToken,
-      useFactory: scrollControlFactory
-    }
-  ]
+  exportAs: 'selectedRecordsPanelScroll'
 })
-export class SelectedRecordsPanelScrollMonitorDirective extends ListScrollMonitorDirectiveBase implements OnChanges {
+export class SelectedRecordsPanelScrollMonitorDirective extends ListScrollMonitorDirectiveBase {
 
-  @Output()
-  public readonly selectedRecordsPanelScrolled = this.scroll.scrollEmitter;
+  @Output('selectedRecordsPanelScrolled')
+  public readonly panelScrolled = new EventEmitter<IScrollInfo>();
 
-  @Input()
-  public selectedRecordsPanelScrollTopSignal!: Observable<number>;
+  @Input('selectedRecordsPanelScrollNotifyWhen')
+  public notifyWhen: (s: IScrollInfo) => boolean;
 
   constructor(
-    @Inject(SelectedRecordsPanelScrollControlToken) scroll: ScrollControl
+    @Inject(SelectedRecordsVirtualScrollHolderToken) scrollHolder: VirtualScrollHolder,
+    zone: NgZone
   ) {
-    super(scroll);
-  }
-
-  public ngOnChanges(changes: SimpleChanges<SelectedRecordsPanelScrollMonitorDirective>): void {
-    this.handleScrollTopSignalChanges(changes.selectedRecordsPanelScrollTopSignal);
+    super(scrollHolder, zone);
   }
 
 }

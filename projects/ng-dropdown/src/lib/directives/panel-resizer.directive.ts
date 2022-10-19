@@ -1,33 +1,30 @@
-import {AfterViewInit, Directive, Inject} from '@angular/core';
-import {ListHeightRecalculateTrigger} from '../injectionTokens';
-import {PanelHeight} from '../PanelHeight';
+import {Directive, ElementRef, Inject} from '@angular/core';
+import {Defaults, VirtualScrollHolderToken} from '../injectionTokens';
 import {takeUntil} from 'rxjs/operators';
 import {DestroyableComponent} from '../DestroyableComponent';
-import {Defaults} from '../Defaults';
+import {NgDropdownInternals} from '../NgDropdownInternals';
+import {VirtualScrollHolder} from '../VirtualScrollHolder';
+import {ContentObserver} from '@angular/cdk/observers';
 
 @Directive({
   selector: '[panelResizer]'
 })
-export class PanelResizerDirective extends DestroyableComponent implements AfterViewInit {
+export class PanelResizerDirective extends DestroyableComponent {
 
   constructor(
-    @Inject(ListHeightRecalculateTrigger) private h: PanelHeight,
-    private defaults: Defaults
+    @Inject(VirtualScrollHolderToken) vs: VirtualScrollHolder,
+    @Inject(Defaults) defaults: NgDropdownInternals,
+    observer: ContentObserver,
+    el: ElementRef
   ) {
     super();
-  }
-
-  public ngAfterViewInit(): void {
-    this.h.trigger.pipe(
+    observer.observe(el).pipe(
       takeUntil(this.destroy)
-    ).subscribe(p => {
-      const actualHeight = p.getContentHeight();
-      const {listHeight} = this.defaults;
-      if (actualHeight < listHeight) {
-        p.setHeight(Math.round(actualHeight) + 1);
-      } else {
-        p.setHeight(listHeight);
-      }
+    ).subscribe(_ => {
+      const {listHeight} = defaults;
+      const actualHeight = vs.wrapper.getContentHeight();
+      const height = actualHeight < listHeight ? Math.round(actualHeight) + 1 : listHeight;
+      vs.wrapper.setHeight(height);
     });
   }
 

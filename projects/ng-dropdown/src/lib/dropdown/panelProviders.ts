@@ -1,4 +1,4 @@
-import {AvailableRecordsPanelToken, MixedPanelsToken, SelectedRecordsPanelToken} from '../injectionTokens';
+import {AvailableRecordsPanelOverlayToken, CombinedPanelsOverlayToken, SelectedRecordsPanelOverlayToken} from '../injectionTokens';
 import {Overlay} from '@angular/cdk/overlay';
 import {OverlayOutsideClickDispatcher} from '../OverlayOutsideClickDispatcher';
 import {OverlayPanel} from '../OverlayPanel';
@@ -101,19 +101,19 @@ export function bothPanelsOverlayFactory(
 const deps = [Overlay, OverlayOutsideClickDispatcher, WindowResizeDispatcher];
 
 export const availableRecordsPanelProvider = {
-  provide: AvailableRecordsPanelToken,
+  provide: AvailableRecordsPanelOverlayToken,
   deps,
   useFactory: availablePanelOverlayFactory
 };
 
 export const selectedRecordsPanelProvider: FactoryProvider = {
-  provide: SelectedRecordsPanelToken,
+  provide: SelectedRecordsPanelOverlayToken,
   deps,
   useFactory: selectionsPanelOverlayFactory
 };
 
 export const bothRecordsPanelsProvider: FactoryProvider = {
-  provide: MixedPanelsToken,
+  provide: CombinedPanelsOverlayToken,
   deps,
   useFactory: bothPanelsOverlayFactory
 };

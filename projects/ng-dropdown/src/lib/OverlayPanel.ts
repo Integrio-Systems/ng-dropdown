@@ -1,5 +1,5 @@
 import {Overlay, OverlayRef} from '@angular/cdk/overlay';
-import {EventEmitter, TemplateRef, ViewContainerRef} from '@angular/core';
+import {TemplateRef, ViewContainerRef} from '@angular/core';
 import {TemplatePortal} from '@angular/cdk/portal';
 import {of, Subject} from 'rxjs';
 import {delay, filter, takeUntil} from 'rxjs/operators';
@@ -10,7 +10,9 @@ interface IOpenParams {
   attachTo: HTMLElement;
   openTrigger: HTMLElement;
   tmpl: TemplateRef<any>;
-  width?: string | number;
+  origin: (element: HTMLElement) => DOMRect;
+  width?: number;
+  panelClass?: string | string[];
 }
 
 interface ConnectedPosition {
@@ -32,13 +34,38 @@ interface IOverlayParams {
   resize: WindowResizeDispatcher;
 }
 
+interface IPanelCreateParams {
+  attachTo: HTMLElement;
+  width: number;
+  origin: (element: HTMLElement) => DOMRect;
+  panelClass?: string | string[];
+}
+
+const createOrigin = (element: HTMLElement, origin: (element: HTMLElement) => DOMRect) => new Proxy(element, {
+  get(target, prop) {
+    if (typeof target[prop] === 'function') {
+      return new Proxy(target[prop], {
+        apply: (t, thisArg, argumentsList) => {
+          if (prop === 'getBoundingClientRect' && origin) {
+            return origin(element);
+          } else {
+            return target[prop].apply(target, argumentsList);
+          }
+        }
+      });
+    } else {
+      return Reflect.get(target, prop);
+    }
+  }
+});
+
 export class OverlayPanel {
 
   private ref?: OverlayRef;
   private viewContainerRef: ViewContainerRef;
   private readonly closed = new Subject();
 
-  public readonly visibilityChange = new EventEmitter<boolean>();
+  public readonly visibilityChange = new Subject<boolean>();
   public readonly outsidePointerEvents = new Subject<MouseEvent>();
 
   constructor(
@@ -55,23 +82,25 @@ export class OverlayPanel {
     }));
   }
 
-  private create(attachTo: HTMLElement, width?: string | number): OverlayRef {
+  private create(params: IPanelCreateParams): OverlayRef {
     const {overlay, positions} = this.params;
+    const {origin, width, attachTo, panelClass} = params;
     const ref = overlay.create({
       positionStrategy: overlay
         .position()
-        .flexibleConnectedTo(attachTo)
+        .flexibleConnectedTo(createOrigin(attachTo, origin))
         .withPositions(positions),
       width: width || attachTo.clientWidth,
       disposeOnNavigation: true,
       minHeight: 250,
+      panelClass,
       scrollStrategy: overlay.scrollStrategies.reposition()
     });
     ref.attachments().subscribe(_ => {
       this.resetMinHeight(ref);
-      this.visibilityChange.emit(true);
+      this.visibilityChange.next(true);
     });
-    ref.detachments().subscribe(_ => this.visibilityChange.emit(false));
+    ref.detachments().subscribe(_ => this.visibilityChange.next(false));
     return ref;
   }
 
@@ -110,7 +139,12 @@ export class OverlayPanel {
       this.close();
       return;
     }
-    this.ref = this.create(params.attachTo, params.width);
+    this.ref = this.create({
+      attachTo: params.attachTo,
+      origin: params.origin,
+      width: params.width,
+      panelClass: params.panelClass
+    });
     this.ref.hostElement.classList.add(this.params.containerClass);
     this.outsidePointerEvents.pipe(
       filter(e => !params.openTrigger.contains(e.target as HTMLElement)),

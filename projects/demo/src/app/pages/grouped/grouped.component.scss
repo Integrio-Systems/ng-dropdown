@@ -1,0 +1,13 @@
+::ng-deep {
+  .multi-group {
+    records-panel {
+      @for $i from 1 to 10 {
+        .record {
+          div[data-level="#{$i}"] {
+            margin-left: #{$i * 5px}
+          }
+        }
+      }
+    }
+  }
+}

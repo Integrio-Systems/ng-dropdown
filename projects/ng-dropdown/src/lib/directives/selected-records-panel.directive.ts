@@ -1,30 +1,18 @@
-import {Directive, ElementRef, Optional} from '@angular/core';
+import {Directive, ElementRef} from '@angular/core';
 import {
-  OverlayPanelToken,
-  ListHeightRecalculateTrigger,
-  ScrollControlToken,
-  SelectedListHeightRecalculateTrigger,
-  SelectedRecordsPanelScrollControlToken,
-  SelectedRecordsPanelToken
+  OverlayPanelToken, SelectedRecordsPanelOverlayToken, VirtualScrollHolderToken, SelectedRecordsVirtualScrollHolderToken
 } from '../injectionTokens';
-import {existedOrNewPanelHeightChangeTrigger, existedScrollControl} from './factories';
 
 @Directive({
   selector: '[selectedRecordsPanel]',
   providers: [
     {
+      provide: VirtualScrollHolderToken,
+      useExisting: SelectedRecordsVirtualScrollHolderToken
+    },
+    {
       provide: OverlayPanelToken,
-      useExisting: SelectedRecordsPanelToken
-    },
-    {
-      provide: ScrollControlToken,
-      useFactory: existedScrollControl,
-      deps: [[new Optional(), SelectedRecordsPanelScrollControlToken]]
-    },
-    {
-      provide: ListHeightRecalculateTrigger,
-      useFactory: existedOrNewPanelHeightChangeTrigger,
-      deps: [[new Optional(), SelectedListHeightRecalculateTrigger]]
+      useExisting: SelectedRecordsPanelOverlayToken
     }
   ]
 })

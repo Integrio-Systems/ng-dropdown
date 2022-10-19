@@ -31,6 +31,7 @@
     <div available>
       <records-panel
         availableRecordsPanel
+        [recordTrackerProperty]="recordTrackerProperty"
         [headerTmpl]="availableRecordsHeaderTmpl?.template || null"
         [footerTmpl]="availableRecordsFooterTmpl?.template || null"
         [groupTmpl]="groupTmpl?.template || defaultGroupTmpl"
@@ -45,6 +46,7 @@
     <div selected>
       <records-panel
         selectedRecordsPanel
+        [recordTrackerProperty]="recordTrackerProperty"
         [headerTmpl]="selectedRecordsHeaderTmpl?.template || null"
         [footerTmpl]="selectedRecordsFooterTmpl?.template || null"
         [groupTmpl]="groupTmpl?.template || defaultGroupTmpl"
@@ -62,6 +64,7 @@
   <records-panel
     availableRecordsPanel
     panelResizer
+    [recordTrackerProperty]="recordTrackerProperty"
     [headerTmpl]="availableRecordsHeaderTmpl?.template || null"
     [footerTmpl]="availableRecordsFooterTmpl?.template || null"
     [groupTmpl]="groupTmpl?.template || defaultGroupTmpl"
@@ -78,6 +81,7 @@
   <records-panel
     selectedRecordsPanel
     panelResizer
+    [recordTrackerProperty]="recordTrackerProperty"
     [headerTmpl]="selectedRecordsHeaderTmpl?.template || null"
     [footerTmpl]="selectedRecordsFooterTmpl?.template || null"
     [groupTmpl]="groupTmpl?.template || defaultGroupTmpl"
@@ -107,14 +111,14 @@
   </div>
 </ng-template>
 
-<ng-template #defaultRecordTmpl let-record="record" let-select="selectAction">
-  <div (click)="select(record)">
+<ng-template #defaultRecordTmpl let-record="record" let-select="selectAction" let-level="level">
+  <div (click)="select(record)" [attr.data-level]="level">
     {{bindLabel ? record[bindLabel] : record}}
   </div>
 </ng-template>
 
-<ng-template #defaultGroupTmpl let-group="group">
-  <span class="default-group">{{group}}</span>
+<ng-template #defaultGroupTmpl let-group="group" let-level="level">
+  <div class="default-group" [attr.data-level]="level">{{group}}</div>
 </ng-template>
 
 <ng-template #defaultSpinnerTmpl>

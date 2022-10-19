@@ -1,30 +1,41 @@
-import {Injectable} from '@angular/core';
-import {ScrollControl} from '../ScrollControl';
-import {ISimpleChange} from '../SimpleChanges';
-import {Observable, Subscription} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {EventEmitter, Injectable, Input, NgZone, Output} from '@angular/core';
+import {filter, map, switchMap, takeUntil} from 'rxjs/operators';
 import {DestroyableComponent} from '../DestroyableComponent';
+import {VirtualScrollHolder} from '../VirtualScrollHolder';
+import {IScrollInfo} from '../IScrollInfo';
 
 @Injectable()
 export abstract class ListScrollMonitorDirectiveBase extends DestroyableComponent {
 
-  private scrollSubscription?: Subscription;
+  @Output()
+  public readonly panelScrolled: EventEmitter<IScrollInfo>;
+
+  @Input()
+  public notifyWhen: (s: IScrollInfo) => boolean;
 
   protected constructor(
-    protected scroll: ScrollControl
+    protected scrollHolder: VirtualScrollHolder,
+    zone: NgZone
   ) {
     super();
+    scrollHolder.set$.pipe(
+      switchMap(r => r.elementScrolled().pipe(
+          filter(_ => this.panelScrolled.observers.length !== 0),
+          map(_ => ({
+            bottom: r.measureScrollOffset('bottom'),
+            top: r.measureScrollOffset('top')
+          }))
+        )
+      ),
+      filter(v => this.notifyWhen ? this.notifyWhen(v) : true),
+      takeUntil(this.destroy)
+    ).subscribe(e => {
+      zone.run(() => this.panelScrolled.emit(e));
+    });
   }
 
-  protected handleScrollTopSignalChanges(change: ISimpleChange<Observable<number>> | undefined): void {
-    if (change && change.currentValue && change.previousValue !== change.currentValue) {
-      if (this.scrollSubscription) {
-        this.scrollSubscription.unsubscribe();
-      }
-      this.scrollSubscription = change.currentValue.pipe(
-        takeUntil(this.destroy)
-      ).subscribe(v => this.scroll.scrollReceiver.next(v));
-    }
+  public scrollTop(v: number) {
+    this.scrollHolder.wrapper.scrollTop(v);
   }
 
 }

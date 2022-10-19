@@ -1,6 +1,6 @@
 {
   "name": "@Integrio-Systems/ng-dropdown",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "peerDependencies": {
     "@angular/common": "^8.2.4",
     "@angular/core": "^8.2.4",

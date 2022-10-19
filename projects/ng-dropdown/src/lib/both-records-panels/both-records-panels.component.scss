@@ -4,11 +4,11 @@
 
   .mixed-panel {
     display: flex;
+    height: 100%;
     visibility: hidden;
 
-    &.visible {
+    &.show {
       visibility: visible;
-      height: 100%;
     }
 
     ::ng-deep {

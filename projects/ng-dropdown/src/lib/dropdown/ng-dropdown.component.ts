@@ -1,10 +1,10 @@
 import {
   Component,
   ContentChild,
-  ElementRef, Inject,
+  ElementRef, EventEmitter, Inject,
   Input,
   OnChanges,
-  OnDestroy, OnInit,
+  OnDestroy, OnInit, Optional, Output,
   TemplateRef,
   ViewChild,
   ViewContainerRef,
@@ -31,14 +31,17 @@ import {FilterableRecords} from '../FilterableRecords';
 import {AvailableRecords} from '../AvailableRecords';
 import {
   AvailableRecordsHolderToken,
-  AvailableRecordsPanelToken,
-  MixedPanelsToken,
+  AvailableRecordsPanelOverlayToken, AvailableRecordsVirtualScrollHolderToken,
+  CombinedPanelsOverlayToken, Defaults,
   SelectedRecordsHolderToken,
-  SelectedRecordsPanelToken
+  SelectedRecordsPanelOverlayToken, SelectedRecordsVirtualScrollHolderToken
 } from '../injectionTokens';
 import {availableRecordsPanelProvider, bothRecordsPanelsProvider, selectedRecordsPanelProvider} from './panelProviders';
-import {Defaults} from '../Defaults';
+import {NgDropdownInternals} from '../NgDropdownInternals';
 import {NoAvailableRecordsTmplDirective} from '../directives/no-available-records-tmpl.directive';
+import {VirtualScrollHolder} from '../VirtualScrollHolder';
+import {RecordTrackerProperty} from '../RecordTrackerProperty';
+import {Observable} from 'rxjs';
 
 export function availableRecordsFactory(): AvailableRecords {
   return new AvailableRecords();
@@ -46,6 +49,14 @@ export function availableRecordsFactory(): AvailableRecords {
 
 export function selectedRecordsFactory(): SelectedRecords {
   return new SelectedRecords();
+}
+
+export function scrollHolderFactory() {
+  return new VirtualScrollHolder();
+}
+
+export function defaultsFactory(supplied: NgDropdownInternals) {
+  return supplied || new NgDropdownInternals();
 }
 
 @Component({
@@ -67,7 +78,19 @@ export function selectedRecordsFactory(): SelectedRecords {
       provide: SelectedRecordsHolderToken,
       useFactory: selectedRecordsFactory
     },
-    Defaults,
+    {
+      provide: AvailableRecordsVirtualScrollHolderToken,
+      useFactory: scrollHolderFactory
+    },
+    {
+      provide: SelectedRecordsVirtualScrollHolderToken,
+      useFactory: scrollHolderFactory
+    },
+    {
+      provide: Defaults,
+      useFactory: defaultsFactory,
+      deps: [[new Optional(), NgDropdownInternals]]
+    },
     availableRecordsPanelProvider,
     selectedRecordsPanelProvider,
     bothRecordsPanelsProvider
@@ -116,6 +139,36 @@ export class NgDropdownComponent extends NgDropdownControlValueAccessor implemen
 
   @Input()
   public recordComparer?: (a: any, b: any) => boolean;
+
+  @Input()
+  public panelCssClass: string;
+
+  @Input()
+  public openManually: boolean;
+
+  @Input()
+  public recordTrackerProperty: RecordTrackerProperty;
+
+  @Output()
+  public availableRecordsPanelOpen = new EventEmitter();
+
+  @Output()
+  public availableRecordsPanelClose = new EventEmitter();
+
+  @Output()
+  public selectedRecordsPanelOpen = new EventEmitter();
+
+  @Output()
+  public selectedRecordsPanelClose = new EventEmitter();
+
+  @Output()
+  public combinedPanelOpen = new EventEmitter();
+
+  @Output()
+  public combinedPanelClose = new EventEmitter();
+
+  @Output()
+  public manualOpen = new EventEmitter();
 
   @ViewChild('dropdown', {static: false})
   public dropdown!: ElementRef<HTMLElement>;
@@ -175,18 +228,31 @@ export class NgDropdownComponent extends NgDropdownControlValueAccessor implemen
   public selectedRecordsButtonTmpl?: SelectedRecordsButtonTmplDirective;
 
   constructor(
-    @Inject(AvailableRecordsPanelToken) public readonly availableRecordsPanel: OverlayPanel,
-    @Inject(SelectedRecordsPanelToken) public readonly selectedRecordsPanel: OverlayPanel,
-    @Inject(MixedPanelsToken) public readonly mixedPanel: OverlayPanel,
+    @Inject(AvailableRecordsPanelOverlayToken) private readonly availableRecordsPanel: OverlayPanel,
+    @Inject(SelectedRecordsPanelOverlayToken) public readonly selectedRecordsPanel: OverlayPanel,
+    @Inject(CombinedPanelsOverlayToken) private readonly mixedPanel: OverlayPanel,
     @Inject(SelectedRecordsHolderToken) selected: SelectedRecords,
     @Inject(AvailableRecordsHolderToken) public readonly availableRecords: FilterableRecords,
-    private defaults: Defaults,
+    @Inject(Defaults) private defaults: NgDropdownInternals,
     vc: ViewContainerRef
   ) {
     super(selected);
     availableRecordsPanel.setViewContainerRef(vc);
     selectedRecordsPanel.setViewContainerRef(vc);
     mixedPanel.setViewContainerRef(vc);
+    this.triggerVisibilityChange(availableRecordsPanel.visibilityChange, this.availableRecordsPanelOpen, this.availableRecordsPanelClose);
+    this.triggerVisibilityChange(selectedRecordsPanel.visibilityChange, this.selectedRecordsPanelOpen, this.selectedRecordsPanelClose);
+    this.triggerVisibilityChange(mixedPanel.visibilityChange, this.combinedPanelOpen, this.combinedPanelClose);
+  }
+
+  private triggerVisibilityChange(source: Observable<boolean>, open: EventEmitter<void>, close: EventEmitter<void>) {
+    source.subscribe(v => {
+      if (v) {
+        open.emit();
+      } else {
+        close.emit();
+      }
+    });
   }
 
   public ngOnInit(): void {
@@ -195,31 +261,61 @@ export class NgDropdownComponent extends NgDropdownControlValueAccessor implemen
   }
 
   public showSelectedItemsPanel = (): void => {
-    this.selectedRecordsPanel.open({
-      openTrigger: this.selectedRecordsButton.nativeElement,
+    if (this.compact) {
+      this.selectedRecordsPanel.open({
+        openTrigger: this.selectedRecordsButton.nativeElement,
+        attachTo: this.dropdown.nativeElement,
+        tmpl: this.selectedRecordsPanelTmpl,
+        width: this.defaults.getSinglePanelWidth(this.dropdown),
+        origin: this.defaults.originPoint,
+        panelClass: [this.panelCssClass, 'selectedItemsPanel']
+      });
+    }
+  };
+
+  private showAvailableRecordsPanel = () => {
+    this.availableRecordsPanel.open({
+      openTrigger: this.selectionTrigger.nativeElement,
       attachTo: this.dropdown.nativeElement,
-      tmpl: this.selectedRecordsPanelTmpl
+      tmpl: this.availableRecordsPanelTmpl,
+      width: this.defaults.getSinglePanelWidth(this.dropdown),
+      origin: this.defaults.originPoint,
+      panelClass: [this.panelCssClass, 'availableRecordsPanel']
     });
   };
 
-  public showItemsPanel(): void {
+  private showCombinedPanel = () => {
     const dropdown = this.dropdown.nativeElement;
+    this.mixedPanel.open({
+      openTrigger: this.selectionTrigger.nativeElement,
+      attachTo: dropdown,
+      tmpl: this.bothRecordPanelsTmpl,
+      width: this.defaults.getCombinedPanelWidth(this.dropdown),
+      origin: this.defaults.originPoint,
+      panelClass: [this.panelCssClass, 'combinedPanel']
+    });
+  };
+
+  public open() {
     if (this.compact || !this.multi) {
-      this.availableRecordsPanel.open({
-        openTrigger: this.selectionTrigger.nativeElement,
-        attachTo: dropdown,
-        tmpl: this.availableRecordsPanelTmpl
-      });
+      this.showAvailableRecordsPanel();
     } else {
-      const size = dropdown.getBoundingClientRect();
-      const {panelMinWidth} = this.defaults;
-      this.mixedPanel.open({
-        openTrigger: this.selectionTrigger.nativeElement,
-        attachTo: dropdown,
-        tmpl: this.bothRecordPanelsTmpl,
-        width: size.width > panelMinWidth ? size.width : size.width * 2
-      });
+      this.showCombinedPanel();
     }
+  }
+
+  public showItemsPanel(): void {
+    if (this.openManually) {
+      this.manualOpen.emit();
+    } else {
+      this.open();
+    }
+  }
+
+  public close() {
+    this.mixedPanel.close();
+    this.availableRecordsPanel.close();
+    this.selectedRecordsPanel.close();
   }
 
   public recordSelect = (record: any): void => {

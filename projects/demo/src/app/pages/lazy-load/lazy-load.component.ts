@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy} from '@angular/core';
 import {IScrollInfo} from '../../../../../ng-dropdown/src/lib/IScrollInfo';
 import {merge, Observable, of, Subject} from 'rxjs';
 import {delay, exhaustMap, mapTo, share, skip, startWith, tap} from 'rxjs/operators';
@@ -7,7 +7,7 @@ import {delay, exhaustMap, mapTo, share, skip, startWith, tap} from 'rxjs/operat
   templateUrl: './lazy-load.component.html',
   styleUrls: ['./lazy-load.component.scss']
 })
-export class LazyLoadComponent {
+export class LazyLoadComponent implements OnDestroy {
 
   private currentPage = 0;
   private readonly totalPages = 5;
@@ -42,10 +42,14 @@ export class LazyLoadComponent {
     );
   }
 
+  public scrollFilter = (e: IScrollInfo) => e.bottom <= 5 && this.currentPage <= this.totalPages - 1;
+
   public scrolled(e: IScrollInfo): void {
-    if (e.bottom <= 5 && this.currentPage <= this.totalPages - 1) {
-      this.loadMoreTrigger.next(this.currentPage);
-    }
+    this.loadMoreTrigger.next(this.currentPage);
+  }
+
+  public ngOnDestroy(): void {
+    this.loadMoreTrigger.complete();
   }
 
 }

@@ -1,11 +1,33 @@
+Simple group
 <ng-dropdown [multi]="true"
-             [records]="ungroupedItems"
+             [records]="singleGroupItems"
              groupBy="type"
              compactModeSwitcher
              placeholder="Choose"
              bindLabel="value">
   <ng-template recordGroupTmpl let-group="group">
     <span class="pl-1">Group: {{group}}</span>
+  </ng-template>
+
+  <ng-template noSelectedRecordsTmpl>
+    <div class="d-flex h-100 align-items-center justify-content-center">
+      No records
+    </div>
+  </ng-template>
+</ng-dropdown>
+
+<br>
+
+Multi level group
+<ng-dropdown [multi]="true"
+             [records]="multiGroupItems"
+             groupBy="tags"
+             compactModeSwitcher
+             panelCssClass="multi-group"
+             placeholder="Choose"
+             bindLabel="value">
+  <ng-template recordGroupTmpl let-group="group" let-level="level">
+    <div [ngStyle]="{marginLeft:((level - 1) * 5) + 'px'}">Group: {{group}}</div>
   </ng-template>
 
   <ng-template noSelectedRecordsTmpl>
