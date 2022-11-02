@@ -25,6 +25,20 @@ describe('SelectedRecords', () => {
 
   describe('multi', () => {
 
+    [{
+      description: 'selection should be empty if set value to null',
+      value: null
+    }, {
+      description: 'selection should be empty if set value to undefined',
+      value: undefined
+    }].forEach(param => {
+      it(param.description, () => {
+        selected.setMode(ValueMode.multi);
+        selected.set(param.value);
+        expect(selected.records.length).toBe(0);
+      });
+    });
+
     it('calling select with already selected record should deselect', () => {
       selected.setMode(ValueMode.multi);
       selected.select(records[2]);
@@ -112,6 +126,19 @@ describe('SelectedRecords', () => {
   });
 
   describe('single', () => {
+
+    [{
+      description: 'selection should be empty if set value to null',
+      value: null
+    }, {
+      description: 'selection should be empty if set value to undefined',
+      value: undefined
+    }].forEach(param => {
+      it(param.description, () => {
+        selected.set(param.value);
+        expect(selected.records.length).toBe(0);
+      });
+    });
 
     it('selected record should persist', () => {
       selected.select(records[2]);

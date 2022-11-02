@@ -104,15 +104,15 @@
 
 > **NgDropdownInternals** (configuring internals)  
 
-| Member name                     | Type                                         | Default                        | Description                                                                                                        |
-|---------------------------------|----------------------------------------------|--------------------------------|--------------------------------------------------------------------------------------------------------------------|
-| listHeight (px)                 | number                                       | 250                            | List height                                                                                                        |
-| combinedPanelWidthLimit (px)    | number                                       | 600                            | Width at which combined panel use ng-dropdown element width                                                        |
-| calculateCombinedPanelWidth     | (element: ElementRef<HTMLElement>) => number | undefined                      | Provide your own combined panel width calculation logic (take priority over combinedPanelWidthLimit)               |
-| calculateSinglePanelWidth       | (element: ElementRef<HTMLElement>) => number | undefined                      | Provide your own single panel width calculation logic                                                              |
-| originPoint                     | (element: HTMLElement) => DOMRect            | undefined                      | Origin relative to which to position the panel                                                                     |
-| cdkVirtualForTemplateCacheSize  | number                                       | 20                             | **[cdkVirtualForTemplateCacheSize](**[DEMO](https://v8.material.angular.io/cdk/scrolling/api#CdkVirtualForOf)**)** |
-| combinedPanelShowDelay (ms)     | number                                       | 50                             | combined panel show delay                                                                                          |
+| Member name                     | Type                                         | Default                        | Description                                                                                            |
+|---------------------------------|----------------------------------------------|--------------------------------|--------------------------------------------------------------------------------------------------------|
+| listHeight (px)                 | number                                       | 250                            | List height                                                                                            |
+| combinedPanelWidthLimit (px)    | number                                       | 600                            | Width at which combined panel use ng-dropdown element width                                            |
+| calculateCombinedPanelWidth     | (element: ElementRef<HTMLElement>) => number | undefined                      | Provide your own combined panel width calculation logic (take priority over combinedPanelWidthLimit)   |
+| calculateSinglePanelWidth       | (element: ElementRef<HTMLElement>) => number | undefined                      | Provide your own single panel width calculation logic                                                  |
+| originPoint                     | (element: HTMLElement) => DOMRect            | undefined                      | Origin relative to which to position the panel                                                         |
+| cdkVirtualForTemplateCacheSize  | number                                       | 20                             | **[cdkVirtualForTemplateCacheSize](https://v8.material.angular.io/cdk/scrolling/api#CdkVirtualForOf)** |
+| combinedPanelShowDelay (ms)     | number                                       | 50                             | combined panel show delay                                                                              |
 
 > **ScrollStrategyFactory**   
 

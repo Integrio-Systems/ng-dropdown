@@ -1,4 +1,5 @@
 import {FilterableRecords} from './FilterableRecords';
+import {isDefined} from './isDefined';
 
 export enum ValueMode {
   multi,
@@ -85,9 +86,9 @@ export class SelectedRecords extends FilterableRecords {
 
   public set(v: Value): void {
     if (this.type === ValueMode.single) {
-      this.selected = [{
+      this.selected = isDefined(v) ? [{
         ngModel: v
-      }];
+      }] : [];
     } else {
       this.selected = Array.isArray(v) ? v.map(r => ({ngModel: r})) : [];
     }
