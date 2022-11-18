@@ -112,7 +112,7 @@
 | calculateSinglePanelWidth       | (element: ElementRef<HTMLElement>) => number | undefined                      | Provide your own single panel width calculation logic                                                  |
 | originPoint                     | (element: HTMLElement) => DOMRect            | undefined                      | Origin relative to which to position the panel                                                         |
 | cdkVirtualForTemplateCacheSize  | number                                       | 20                             | **[cdkVirtualForTemplateCacheSize](https://v8.material.angular.io/cdk/scrolling/api#CdkVirtualForOf)** |
-| combinedPanelShowDelay (ms)     | number                                       | 50                             | combined panel show delay                                                                              |
+| panelShowDelay (ms)     | number                                       | 50                             | panel show delay                                                                              |
 
 > **ScrollStrategyFactory**   
 

@@ -6,6 +6,11 @@
   position: relative;
   justify-content: space-between;
 
+  &.hidden {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
   .records {
     width: 100%;
   }

@@ -7,7 +7,7 @@ export class NgDropdownInternals {
   public calculateSinglePanelWidth: (element: ElementRef<HTMLElement>) => number;
   public originPoint: (element: HTMLElement) => DOMRect;
   public cdkVirtualForTemplateCacheSize: number;
-  public combinedPanelShowDelay: number;
+  public panelShowDelay: number;
 
   constructor(config: Partial<NgDropdownInternals> = {}) {
     this.listHeight = config.listHeight || 250;
@@ -16,7 +16,7 @@ export class NgDropdownInternals {
     this.calculateSinglePanelWidth = config.calculateSinglePanelWidth || undefined;
     this.originPoint = config.originPoint || undefined;
     this.cdkVirtualForTemplateCacheSize = config.cdkVirtualForTemplateCacheSize || 20;
-    this.combinedPanelShowDelay = config.combinedPanelShowDelay || 50;
+    this.panelShowDelay = config.panelShowDelay || 50;
   }
 
   public getCombinedPanelWidth(element: ElementRef<HTMLElement>): number {

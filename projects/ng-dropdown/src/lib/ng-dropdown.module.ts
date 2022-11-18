@@ -31,6 +31,7 @@ import {NoAvailableRecordsTmplDirective} from './directives/no-available-records
 import {ObserversModule} from '@angular/cdk/observers';
 import {VirtualScrollHookDirective} from './directives/virtual-scroll-hook.directive';
 import {CombinedPanelResizerDirective} from './directives/combined-panel-resizer.directive';
+import {DelayedAppearanceDirective} from './directives/delayed-appearance.directive';
 
 export function windowFactory() {
   return window;
@@ -68,7 +69,8 @@ export function windowFactory() {
     SelectedRecordsPanelScrollMonitorDirective,
     NoAvailableRecordsTmplDirective,
     VirtualScrollHookDirective,
-    CombinedPanelResizerDirective
+    CombinedPanelResizerDirective,
+    DelayedAppearanceDirective
   ],
   exports: [
     NgDropdownComponent,

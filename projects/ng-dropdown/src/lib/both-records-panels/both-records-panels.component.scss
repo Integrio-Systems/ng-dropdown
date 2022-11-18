@@ -2,14 +2,14 @@
   display: block;
   width: 100%;
 
+  &.hidden {
+    visibility: hidden;
+    pointer-events: none;
+  }
+
   .mixed-panel {
     display: flex;
     height: 100%;
-    visibility: hidden;
-
-    &.show {
-      visibility: visible;
-    }
 
     ::ng-deep {
       > div {

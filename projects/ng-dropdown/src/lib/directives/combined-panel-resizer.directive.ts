@@ -1,9 +1,9 @@
-import {ChangeDetectorRef, Directive, ElementRef, HostBinding, Inject, Input} from '@angular/core';
+import {Directive, ElementRef, Inject, Input} from '@angular/core';
 import {AvailableRecordsVirtualScrollHolderToken, Defaults, SelectedRecordsVirtualScrollHolderToken} from '../injectionTokens';
 import {VirtualScrollHolder} from '../VirtualScrollHolder';
 import {NgDropdownInternals} from '../NgDropdownInternals';
 import {ContentObserver} from '@angular/cdk/observers';
-import {delay, take, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {DestroyableComponent} from '../DestroyableComponent';
 
 interface IPanel {
@@ -18,30 +18,17 @@ export class CombinedPanelResizerDirective extends DestroyableComponent {
   @Input('combinedPanelResizer')
   public panels: IPanel[];
 
-  @HostBinding('class.show')
-  public visible = false;
-
   constructor(
     @Inject(AvailableRecordsVirtualScrollHolderToken) private as: VirtualScrollHolder,
     @Inject(SelectedRecordsVirtualScrollHolderToken) private ss: VirtualScrollHolder,
     @Inject(Defaults) private defaults: NgDropdownInternals,
     observer: ContentObserver,
     el: ElementRef<HTMLElement>,
-    cd: ChangeDetectorRef
   ) {
     super();
-    const o = observer.observe(el);
-    o.pipe(
+    observer.observe(el).pipe(
       takeUntil(this.destroy)
     ).subscribe(_ => this.recalculateHeight());
-    o.pipe(
-      take(1),
-      delay(defaults.combinedPanelShowDelay),
-      takeUntil(this.destroy)
-    ).subscribe(_ => {
-      this.visible = true;
-      cd.markForCheck();
-    });
   }
 
   private recalculateHeight() {

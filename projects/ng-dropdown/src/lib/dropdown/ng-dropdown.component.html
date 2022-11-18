@@ -27,7 +27,7 @@
 </div>
 
 <ng-template #bothRecordPanelsTmpl>
-  <both-records-panels>
+  <both-records-panels delayedAppearance>
     <div available>
       <records-panel
         availableRecordsPanel
@@ -64,6 +64,7 @@
   <records-panel
     availableRecordsPanel
     panelResizer
+    delayedAppearance
     [recordTrackerProperty]="recordTrackerProperty"
     [headerTmpl]="availableRecordsHeaderTmpl?.template || null"
     [footerTmpl]="availableRecordsFooterTmpl?.template || null"
@@ -81,6 +82,7 @@
   <records-panel
     selectedRecordsPanel
     panelResizer
+    delayedAppearance
     [recordTrackerProperty]="recordTrackerProperty"
     [headerTmpl]="selectedRecordsHeaderTmpl?.template || null"
     [footerTmpl]="selectedRecordsFooterTmpl?.template || null"
